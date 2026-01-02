@@ -57,23 +57,23 @@ export default async function TeamsPage() {
     .sort((a, b) => b.totalPoints - a.totalPoints);
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Equipas</h1>
+    <div className="space-y-4 md:space-y-6">
+      <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Equipas</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
         {teamsWithStats.map((team) => (
           <Link key={team.id} href={`/teams/${encodeURIComponent(team.name)}`}>
             <Card className="hover:shadow-md transition-shadow cursor-pointer h-full">
-              <div className="flex justify-between items-start mb-4">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+              <div className="flex justify-between items-start mb-3 md:mb-4">
+                <h2 className="text-base md:text-xl font-bold text-gray-900 dark:text-white">
                   {team.name}
                 </h2>
-                <span className="text-2xl font-bold text-green-600">
+                <span className="text-lg md:text-2xl font-bold text-green-600">
                   {team.totalPoints} pts
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="grid grid-cols-2 gap-2 md:gap-4 text-xs md:text-sm">
                 <div>
                   <p className="text-gray-500 dark:text-gray-400">Jogos</p>
                   <p className="font-medium text-gray-900 dark:text-white">
@@ -109,8 +109,8 @@ export default async function TeamsPage() {
                 </div>
               </div>
 
-              <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
-                <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+              <div className="mt-3 md:mt-4 pt-3 md:pt-4 border-t border-gray-100 dark:border-gray-700">
+                <div className="flex justify-between text-[10px] md:text-xs text-gray-500 dark:text-gray-400">
                   <span>Ruck: {(team.avgRuckSuccess * 100).toFixed(0)}%</span>
                   <span>Placagem: {(team.avgTackleSuccess * 100).toFixed(0)}%</span>
                   <span>Posse: {(team.avgPossession * 100).toFixed(0)}%</span>

@@ -191,11 +191,11 @@ export function MatchInsights({ data }: MatchInsightsProps) {
         <CardTitle>Destaques do Jogo</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-3">
+        <div className="space-y-2 md:space-y-3">
           {insights.map((insight, index) => (
             <div
               key={index}
-              className={`flex items-start gap-3 p-3 rounded-lg ${
+              className={`flex items-start gap-2 md:gap-3 p-2 md:p-3 rounded-lg ${
                 insight.type === "positive"
                   ? "bg-green-50 dark:bg-green-900/20"
                   : insight.type === "negative"
@@ -203,9 +203,9 @@ export function MatchInsights({ data }: MatchInsightsProps) {
                   : "bg-gray-50 dark:bg-gray-800"
               }`}
             >
-              <span className="text-xl">{insight.icon}</span>
+              <span className="text-base md:text-xl">{insight.icon}</span>
               <p
-                className={`text-sm ${
+                className={`text-xs md:text-sm ${
                   insight.type === "positive"
                     ? "text-green-800 dark:text-green-200"
                     : insight.type === "negative"

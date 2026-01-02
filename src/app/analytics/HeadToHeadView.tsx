@@ -17,13 +17,49 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+import { Trophy, TrendingUp, AlertTriangle } from "lucide-react";
 
 interface Props {
   team1: TeamStats;
   team2: TeamStats;
 }
 
+function calculatePrediction(t1: TeamStats, t2: TeamStats) {
+  let score1 = 0;
+  let score2 = 0;
+
+  // 1. Attack Power (Points & Tries) - Weight: 35%
+  if (t1.avg.pointsScored > t2.avg.pointsScored) score1 += 35; else score2 += 35;
+  
+  // 2. Defense (Points Conceded & Tackle Success) - Weight: 25%
+  // Lower points conceded is better
+  if (t1.avg.pointsConceded < t2.avg.pointsConceded) score1 += 15; else score2 += 15;
+  if (t1.avg.tackleSuccess > t2.avg.tackleSuccess) score1 += 10; else score2 += 10;
+
+  // 3. Set Piece Dominance (Lineout & Scrum) - Weight: 20%
+  const sp1 = t1.avg.lineoutSuccess + t1.avg.scrumSuccess;
+  const sp2 = t2.avg.lineoutSuccess + t2.avg.scrumSuccess;
+  if (sp1 > sp2) score1 += 20; else score2 += 20;
+
+  // 4. Discipline (Penalties) - Weight: 20%
+  // Lower penalties is better
+  if (t1.avg.penalties < t2.avg.penalties) score1 += 20; else score2 += 20;
+
+  const total = score1 + score2;
+  const prob1 = Math.round((score1 / total) * 100);
+  
+  return {
+    winner: prob1 >= 50 ? t1 : t2,
+    probability: prob1 >= 50 ? prob1 : 100 - prob1,
+    reason: prob1 >= 50 
+      ? `Better ${t1.avg.pointsScored > t2.avg.pointsScored ? 'Attack' : 'Defense'} & Discipline` 
+      : `Better ${t2.avg.pointsScored > t1.avg.pointsScored ? 'Attack' : 'Defense'} & Discipline`
+  };
+}
+
 export function HeadToHeadView({ team1, team2 }: Props) {
+  const prediction = calculatePrediction(team1, team2);
+
   // 1. Radar Data (Percentages)
   const radarData = [
     {
@@ -88,6 +124,36 @@ export function HeadToHeadView({ team1, team2 }: Props) {
 
   return (
     <div className="space-y-6">
+      {/* Prediction Card */}
+      <Card className="bg-gradient-to-r from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 border-green-500/20">
+        <CardContent className="pt-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-full">
+                <Trophy className="w-8 h-8 text-green-600 dark:text-green-400" />
+              </div>
+              <div>
+                <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Predicted Winner</h3>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  {prediction.winner.teamName} <span className="text-lg text-green-600 font-medium">({prediction.probability}%)</span>
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex gap-8 text-sm">
+               <div className="flex items-center gap-2">
+                 <TrendingUp className="w-4 h-4 text-blue-500" />
+                 <span className="text-gray-600 dark:text-gray-300">Based on recent form & stats</span>
+               </div>
+               <div className="flex items-center gap-2">
+                 <AlertTriangle className="w-4 h-4 text-yellow-500" />
+                 <span className="text-gray-600 dark:text-gray-300">Statistical projection only</span>
+               </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* Performance Radar */}
