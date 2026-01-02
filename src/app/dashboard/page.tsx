@@ -118,16 +118,16 @@ export default async function DashboardPage({ searchParams }: Props) {
   const avgEffectiveSecs = Math.floor(avgEffectiveTime % 60);
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-          Dashboard - Campeonato Português
+    <div className="space-y-4 md:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+        <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
+          Campeonato Português
         </h1>
         <RoundFilter rounds={availableRounds} selectedRound={selectedRound} />
       </div>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
         <StatCard
           title="Jogos"
           value={matchCount}

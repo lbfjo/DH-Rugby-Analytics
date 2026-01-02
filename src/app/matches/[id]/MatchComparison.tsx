@@ -20,7 +20,6 @@ export function MatchComparison({ data, team1Name, team2Name }: MatchComparisonP
       data={data}
       team1Name={team1Name}
       team2Name={team2Name}
-      height={250}
     />
   );
 }

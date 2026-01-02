@@ -163,20 +163,20 @@ export default async function TeamDetailPage({ params }: Props) {
     .sort((a, b) => b.round - a.round);
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-4">
+    <div className="space-y-4 md:space-y-6">
+      <div className="flex items-center gap-2 md:gap-4">
         <Link
           href="/teams"
-          className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+          className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-sm md:text-base"
         >
           &larr; Equipas
         </Link>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{team.name}</h1>
+        <h1 className="text-lg md:text-2xl font-bold text-gray-900 dark:text-white">{team.name}</h1>
       </div>
 
       {/* Overview Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-        <StatCard title="Pts. Classificação" value={totalStats.matchPoints} />
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-4">
+        <StatCard title="Pts. Class." value={totalStats.matchPoints} />
         <StatCard title="Jogos" value={gamesPlayed} />
         <StatCard title="Pontos M/S" value={`${totalStats.pointsScored}/${totalStats.pointsConceded}`} />
         <StatCard
@@ -210,11 +210,11 @@ export default async function TeamDetailPage({ params }: Props) {
               <Link
                 key={match.id}
                 href={`/matches/${match.id}`}
-                className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 border border-gray-100 dark:border-gray-700"
+                className="flex items-center justify-between p-2 md:p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 border border-gray-100 dark:border-gray-700"
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 md:gap-3">
                   <span
-                    className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm ${
+                    className={`w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center text-white font-bold text-xs md:text-sm ${
                       match.result === "W"
                         ? "bg-green-500"
                         : match.result === "L"
@@ -225,13 +225,13 @@ export default async function TeamDetailPage({ params }: Props) {
                     {match.result}
                   </span>
                   <div>
-                    <p className="font-medium text-gray-900 dark:text-white">
+                    <p className="font-medium text-gray-900 dark:text-white text-sm md:text-base">
                       {match.isHome ? "vs" : "@"} {match.opponent}
                     </p>
-                    <p className="text-sm text-gray-500">Jornada {match.round}</p>
+                    <p className="text-xs md:text-sm text-gray-500">Jornada {match.round}</p>
                   </div>
                 </div>
-                <span className="text-lg font-bold text-gray-900 dark:text-white">
+                <span className="text-base md:text-lg font-bold text-gray-900 dark:text-white">
                   {match.teamPoints} - {match.opponentPoints}
                 </span>
               </Link>
