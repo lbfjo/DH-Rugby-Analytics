@@ -44,6 +44,12 @@ export default function RootLayout({
                   >
                     Jogos
                   </Link>
+                  <Link
+                    href="/analytics"
+                    className="text-gray-600 dark:text-gray-300 hover:text-green-700 dark:hover:text-green-500 px-2 md:px-3 py-2 rounded-md text-xs md:text-sm font-medium whitespace-nowrap"
+                  >
+                    Analytics
+                  </Link>
                 </div>
               </div>
             </div>
