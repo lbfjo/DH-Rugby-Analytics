@@ -9,6 +9,7 @@ const navLinks = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/teams", label: "Equipas" },
   { href: "/matches", label: "Jogos" },
+  { href: "/analytics", label: "Analytics" },
 ];
 
 export function MobileNav() {
