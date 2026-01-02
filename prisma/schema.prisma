@@ -1,0 +1,123 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./rugby.db"
+}
+
+model Team {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  groupName String   @default("A") // A, B, or C
+  createdAt DateTime @default(now())
+
+  matchesAsTeam1 Match[]          @relation("Team1")
+  matchesAsTeam2 Match[]          @relation("Team2")
+  matchStats     MatchTeamStats[]
+  roundStats     TeamRoundStats[]
+}
+
+model Match {
+  id                       String   @id @default(cuid())
+  round                    Int
+  referee                  String?
+  team1Id                  String
+  team2Id                  String
+  pointsTeam1              Int
+  pointsTeam2              Int
+  totalPoints              Int
+  triesTeam1               Int
+  triesTeam2               Int
+  totalTries               Int
+  triesFromLineout         Int
+  triesFromScrum           Int
+  effectiveTimeSeconds     Int      // Tempo Útil in seconds
+  kickingGame              Int      // Jogo ao Pé
+  totalRucks               Int
+  ruckSuccessTeam1         Float    // 0-1
+  ruckSuccessTeam2         Float    // 0-1
+  totalScrums              Int      // FO's
+  scrumsTeam1              Int
+  scrumsTeam2              Int
+  totalLineouts            Int      // AL's
+  lineoutsTeam1            Int
+  lineoutsTeam2            Int
+  totalPenalties           Int
+  penaltiesTeam1           Int
+  penaltiesTeam2           Int
+  penaltiesDefensiveRuck   Int
+  penaltiesAttackingRuck   Int
+  penaltiesOffside         Int
+  penaltiesTackle          Int
+  rawRowJson               String   // JSON for debug
+  createdAt                DateTime @default(now())
+
+  team1     Team             @relation("Team1", fields: [team1Id], references: [id])
+  team2     Team             @relation("Team2", fields: [team2Id], references: [id])
+  teamStats MatchTeamStats[]
+}
+
+model MatchTeamStats {
+  id          String  @id @default(cuid())
+  matchId     String
+  teamId      String
+  isHomeTeam  Boolean
+  points      Int
+  tries       Int
+  ruckSuccess Float   // 0-1
+  scrums      Int
+  lineouts    Int
+  penalties   Int
+
+  match Match @relation(fields: [matchId], references: [id])
+  team  Team  @relation(fields: [teamId], references: [id])
+}
+
+model TeamRoundStats {
+  id                     String   @id @default(cuid())
+  teamId                 String
+  round                  Int
+  pointsScored           Int
+  pointsConceded         Int
+  matchPoints            Int      // league points
+  triesScored            Int
+  triesConceded          Int
+  triesMatch             Int
+  triesFromLineout       Int
+  triesFromScrum         Int
+  triesFromTurnover      Int
+  triesFromCounterAttack Int
+  triesFromTap           Int
+  triesFromPenaltyScrum  Int
+  effectiveTimeSeconds   Int
+  possessionSeconds      Int
+  possessionPercent      Float    // 0-1
+  kickingGame            Int
+  tacklesMade            Int
+  tacklesMissed          Int
+  tackleSuccessRate      Float    // 0-1
+  lineBreaks             Int
+  totalRucks             Int
+  ruckSuccess            Float    // 0-1
+  totalScrums            Int
+  scrumsWon              Float    // success rate 0-1
+  scrumsReset            Int
+  totalLineouts          Int
+  lineoutsWon            Float    // success rate 0-1
+  penaltiesConceded      Int
+  penDefensiveRuck       Int
+  penAttackingRuck       Int
+  penOffside             Int
+  penTackle              Int
+  penLineoutMaul         Int
+  penScrum               Int
+  penOther               Int
+  rawRowJson             String
+  createdAt              DateTime @default(now())
+
+  team Team @relation(fields: [teamId], references: [id])
+
+  @@unique([teamId, round])
+}
