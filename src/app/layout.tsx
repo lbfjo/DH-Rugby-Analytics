@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Link from "next/link";
 import { MobileNav } from "@/components/ui/MobileNav";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "Rugby Analytics Dashboard",
@@ -32,6 +33,7 @@ export default function RootLayout({
         <main className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 md:py-8">
           {children}
         </main>
+        <Analytics />
       </body>
     </html>
   );
